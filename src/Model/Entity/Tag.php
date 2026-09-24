@@ -41,6 +41,12 @@ class Tag
         return $this->code;
     }
 
+    public function setCode(string $code): Tag
+    {
+        $this->code = $code;
+        return $this;
+    }
+
     public function getName(): string
     {
         return $this->name;
