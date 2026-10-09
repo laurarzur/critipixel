@@ -34,7 +34,7 @@ final class Version20240422185649 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_46D6859F16230A8 ON video_game_tags (video_game_id)');
         $this->addSql('CREATE INDEX IDX_46D6859FBAD26311 ON video_game_tags (tag_id)');
         $this->addSql('ALTER TABLE review ADD CONSTRAINT FK_794381C616230A8 FOREIGN KEY (video_game_id) REFERENCES video_game (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE review ADD CONSTRAINT FK_794381C6A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE review ADD CONSTRAINT FK_794381C6A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE video_game_tags ADD CONSTRAINT FK_46D6859F16230A8 FOREIGN KEY (video_game_id) REFERENCES video_game (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE video_game_tags ADD CONSTRAINT FK_46D6859FBAD26311 FOREIGN KEY (tag_id) REFERENCES tag (id) ON DELETE CASCADE');
     }

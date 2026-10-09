@@ -28,7 +28,7 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
     /**
      * @var array<string, string> code => nom
      */
-    private const TAGS = [
+    public const TAGS = [
         'action' => 'Action',
         'aventure' => 'Aventure',
         'rpg' => 'RPG',
