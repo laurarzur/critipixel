@@ -13,7 +13,7 @@ class CountRatingsPerValueTest extends TestCase
     /**
      * @dataProvider videoGamesData
      */
-    public function testCountRatingsPerValue(VideoGame $videoGame, NumberOfRatingPerValue $expectedNumberOfRatingPerValue)
+    public function testCountRatingsPerValue(VideoGame $videoGame, NumberOfRatingPerValue $expectedNumberOfRatingPerValue): void
     {
         $ratingHandler = new RatingHandler();
         $ratingHandler->countRatingsPerValue($videoGame);

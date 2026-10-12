@@ -7,6 +7,7 @@ namespace App\Tests\Functional\VideoGame;
 use App\Doctrine\DataFixtures\VideoGameFixtures;
 use App\Model\Entity\Tag;
 use App\Tests\Functional\FunctionalTestCase;
+use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 
 final class FilterTest extends FunctionalTestCase
 {
@@ -30,6 +31,7 @@ final class FilterTest extends FunctionalTestCase
     }
 
     /**
+     * @param list<string> $tagNames
      * @dataProvider tagsData
      */
     public function testShouldFilterVideoGamesByTag(array $tagNames): void
@@ -46,7 +48,12 @@ final class FilterTest extends FunctionalTestCase
             $tagIds[] = (string) $tag->getId();
         }
 
-        foreach ($form['filter']['tags'] as $checkbox) {
+        $checkboxes = $form->get('filter[tags]');
+        self::assertIsArray($checkboxes);
+
+        foreach ($checkboxes as $checkbox) {
+            self::assertInstanceOf(ChoiceFormField::class, $checkbox);
+
             if (in_array($checkbox->availableOptionValues()[0], $tagIds, true)) {
                 $checkbox->tick();
             }
@@ -73,11 +80,13 @@ final class FilterTest extends FunctionalTestCase
         });
     }
 
-
-    public function tagsData()
+    /**
+     * @return iterable<string, array{list<string>}>
+     */
+    public function tagsData(): iterable
     {
         yield 'No tag' => [[]];
         yield 'One tag' => [[VideoGameFixtures::TAGS['action']]];
-        yield 'Two tags' => [[VideoGameFixtures::TAGS['action']], VideoGameFixtures::TAGS['aventure']];
+        yield 'Two tags' => [[VideoGameFixtures::TAGS['action'], VideoGameFixtures::TAGS['aventure']]];
     }
 }

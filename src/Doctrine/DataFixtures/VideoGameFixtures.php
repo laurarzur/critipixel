@@ -63,12 +63,15 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
             $tags[] = $tag;
         }
 
+        /** @var string $fakeText */
+        $fakeText = $this->faker->paragraphs(5, true);
+
         $videoGames = array_map(
             fn(int $index): VideoGame => (new VideoGame())
                 ->setTitle(sprintf('Jeu vidéo %d', $index))
-                ->setDescription($this->faker->paragraphs(10, true))
+                ->setDescription($fakeText)
                 ->setReleaseDate(new DateTimeImmutable())
-                ->setTest($this->faker->paragraphs(6, true))
+                ->setTest($fakeText)
                 ->setRating(($index % 5) + 1)
                 ->setImageName(sprintf('video_game_%d.png', $index))
                 ->setImageSize(2_098_872),

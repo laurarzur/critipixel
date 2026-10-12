@@ -12,7 +12,7 @@ class CalculateAverageRatingTest extends TestCase
     /**
      * @dataProvider videoGamesData
      */
-    public function testCalculateAverageRating(VideoGame $videoGame, ?int $expectedAverageRating)
+    public function testCalculateAverageRating(VideoGame $videoGame, ?int $expectedAverageRating): void
     {
         $ratingHandler = new RatingHandler();
         $ratingHandler->calculateAverage($videoGame);

@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class RatingTest extends FunctionalTestCase
 {
-    public function testShouldLetUserAddRating()
+    public function testShouldLetUserAddRating(): void
     {
         $this->login();
         $this->get('/jeu-video-21');
