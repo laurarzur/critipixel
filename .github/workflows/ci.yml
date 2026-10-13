@@ -1,0 +1,43 @@
+name: Github Actions CI
+on: [push]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_USER: ${{ secrets.DB_USER }}
+          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: critipixel_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      DATABASE_URL: "mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@127.0.0.1:3306/critipixel?serverVersion=8.0&charset=utf8mb4"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql
+      - name: Build
+        run: |
+          composer install
+          php bin/console doctrine:migrations:migrate -n --env=test
+          php bin/console doctrine:fixtures:load -n --env=test
+          php bin/console sass:build
+      - name: Tests
+        run: php bin/phpunit
+      - name: Analysis
+        run: php vendor/bin/phpstan
