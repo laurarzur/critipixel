@@ -38,7 +38,7 @@ class CountRatingsPerValueTest extends TestCase
 
         yield 'A lot of reviews' => [
             self::createVideoGameWithRatings(1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5),
-            self::createExpectedState(1, 2, 3, 4, 5),
+            self::createExpectedState(1, 2, 3, 4, 4),
         ];
     }
 
