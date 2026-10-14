@@ -51,7 +51,12 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
 
     public function load(ObjectManager $manager): void
     {
-        $users = $manager->getRepository(User::class)->findAll();
+        $users = $manager->getRepository(User::class)->findBy([], ['id' => 'ASC']);
+        $user0 = array_shift($users);
+
+        if ($user0 === null) {
+            throw new \LogicException('L\'utilisateur user+0@email.com est introuvable.');
+        }
 
         $tags = [];
         foreach (self::TAGS as $code => $name) {
@@ -78,6 +83,7 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
             range(0, 49)
         );
 
+
         /** @var VideoGame $videoGame */
         foreach ($videoGames as $videoGame) {
             $tagIndexes = (array) array_rand($tags, random_int(1, 4));
@@ -87,7 +93,7 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
             }
 
             if ($users !== []) {
-                $numberOfReviewers = min(count($users), random_int(5, 20));
+                $numberOfReviewers = min(count($users), random_int(2, count($users)));
                 $userIndexes = (array) array_rand($users, $numberOfReviewers);
 
                 foreach ($userIndexes as $userIndex) {
@@ -105,6 +111,18 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
             $this->calculateAverageRating->calculateAverage($videoGame);
             $this->countRatingsPerValue->countRatingsPerValue($videoGame);
         }
+
+        $videoGame0 = $videoGames[0];
+        $lastReview = (new Review())
+            ->setVideoGame($videoGame0)
+            ->setUser($user0)
+            ->setRating(4);
+
+        $manager->persist($lastReview);
+        $videoGame0->getReviews()->add($lastReview);
+
+        $this->calculateAverageRating->calculateAverage($videoGame0);
+        $this->countRatingsPerValue->countRatingsPerValue($videoGame0);
 
         array_walk($videoGames, [$manager, 'persist']);
 

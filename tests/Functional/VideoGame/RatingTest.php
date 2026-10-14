@@ -10,7 +10,7 @@ final class RatingTest extends FunctionalTestCase
     public function testShouldLetUserAddRating(): void
     {
         $this->login();
-        $this->get('/jeu-video-21');
+        $this->get('/jeu-video-1');
         self::assertResponseIsSuccessful();
         self::assertSelectorExists('form[name="review"]');
         $this->submit(
