@@ -113,6 +113,10 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
         }
 
         $videoGame0 = $videoGames[0];
+
+        $videoGame0->addTag($tags[0]);
+        $videoGame0->addTag($tags[1]);
+
         $lastReview = (new Review())
             ->setVideoGame($videoGame0)
             ->setUser($user0)
