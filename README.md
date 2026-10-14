@@ -25,12 +25,8 @@ docker compose up -d
 ## Configuration
 
 ### Base de données
-Actuellement, le fichier `.env` est configuré pour la base de données PostgreSQL mise en place dans `docker-compose.yml`.
+Actuellement, le fichier `.env` est configuré pour la base de données MySQL mise en place dans `docker-compose.yml`.
 Cependant, vous pouvez créer un fichier `.env.local` si nécessaire pour configurer l'accès à la base de données.
-Exemple :
-```dotenv
-DATABASE_URL=mysql://root:Password123!@host:3306/criti-pixel
-```
 
 ### PHP (optionnel)
 Vous pouvez surcharger la configuration PHP en créant un fichier `php.local.ini`.
@@ -58,7 +54,7 @@ symfony console doctrine:migrations:migrate -n
 
 #### Charger les fixtures
 ```bash
-symfony console doctrine:fixtures:load -n --purge-with-truncate
+symfony console doctrine:fixtures:load -n
 ```
 
 *Note : Vous pouvez exécuter ces commandes avec l'option `--env=test` pour les exécuter dans l'environnement de test.*
